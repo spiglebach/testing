@@ -5,6 +5,9 @@ public abstract class Money {
     protected int amount;
     protected double relativeValue;
 
+    protected abstract String currency();
+    protected abstract Money times(int multiplier);
+
     public static Dollar dollar(int amount) {
         return new Dollar(amount);
     }
@@ -17,8 +20,6 @@ public abstract class Money {
         this.amount = amount;
         this.relativeValue = relativeValue;
     }
-
-    protected abstract Money times(int multiplier);
 
     public boolean equals(Object o) {
         if (o == null) return false;
