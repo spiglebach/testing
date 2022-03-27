@@ -1,24 +1,27 @@
 package guru.springframework;
 
-public abstract class Money {
+public class Money {
 
     protected int amount;
+    protected String currency;
     protected double relativeValue;
 
-    protected abstract String currency();
-    protected abstract Money times(int multiplier);
-
-    public static Dollar dollar(int amount) {
-        return new Dollar(amount);
+    public static Money dollar(int amount) {
+        return new Money(amount, 1, "USD");
     }
 
-    public static Franc franc(int amount) {
-        return new Franc(amount);
+    public static Money franc(int amount) {
+        return new Money(amount, .5, "CHF");
     }
 
-    protected Money(int amount, double relativeValue) {
+    protected Money(int amount, double relativeValue, String currency) {
         this.amount = amount;
         this.relativeValue = relativeValue;
+        this.currency = currency;
+    }
+
+    public Money times(int multiplier) {
+        return new Money(this.amount * multiplier, this.relativeValue, this.currency);
     }
 
     public boolean equals(Object o) {
@@ -29,5 +32,9 @@ public abstract class Money {
             return other.amount * other.relativeValue == this.amount * this.relativeValue;
         }
         return false;
+    }
+
+    protected String getCurrency() {
+        return currency;
     }
 }
