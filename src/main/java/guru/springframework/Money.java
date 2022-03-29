@@ -1,27 +1,29 @@
 package guru.springframework;
 
-public class Money {
+public class Money implements Expression {
 
     protected int amount;
     protected String currency;
-    protected double relativeValue;
 
     public static Money dollar(int amount) {
-        return new Money(amount, 1, "USD");
+        return new Money(amount, "USD");
     }
 
     public static Money franc(int amount) {
-        return new Money(amount, .5, "CHF");
+        return new Money(amount, "CHF");
     }
 
-    protected Money(int amount, double relativeValue, String currency) {
+    protected Money(int amount, String currency) {
         this.amount = amount;
-        this.relativeValue = relativeValue;
         this.currency = currency;
     }
 
     public Money times(int multiplier) {
-        return new Money(this.amount * multiplier, this.relativeValue, this.currency);
+        return new Money(this.amount * multiplier, this.currency);
+    }
+
+    public Expression plus(Money added) {
+        return new Sum(this, added);
     }
 
     public boolean equals(Object o) {
@@ -29,12 +31,17 @@ public class Money {
         if (o == this) return true;
         if (o instanceof Money) {
             Money other = (Money) o;
-            return other.amount * other.relativeValue == this.amount * this.relativeValue;
+            return other.amount == this.amount && this.currency.equals(other.currency);
         }
         return false;
     }
 
     protected String getCurrency() {
         return currency;
+    }
+
+    @Override
+    public Money reduce(String to) {
+        return this;
     }
 }
