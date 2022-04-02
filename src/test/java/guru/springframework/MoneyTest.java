@@ -1,10 +1,13 @@
 package guru.springframework;
 
+import guru.springframework.junitextensions.TimingExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+@ExtendWith(TimingExtension.class)
 class MoneyTest {
 
     @Test
